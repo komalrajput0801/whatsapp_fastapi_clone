@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container" id="login-container">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" name="username" required>
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" id="show-register-form">Register</a></p>
+        </div>
+
+        <div class="form-container" id="register-container">
+            <h2>Register</h2>
+            <form id="register-form">
+                {% for field_name, field in register_form.items() %}
+                    <label for="register-{{field_name}}">{{ field.title }}</label>
+                    <input type="text" id="register-{{field_name}}" name="{{field_name}}" required>
+                {% endfor %}                
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="#" id="show-login-form">Login</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

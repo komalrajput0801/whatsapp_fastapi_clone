@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+SQLAlchemy
+psycopg2-binary
+alembic==1.8.1
+alembic-postgresql-enum==1.2.0
+fastapi-utils==0.2.1
+python-dotenv
+python-jose
+passlib[bcrypt]
+python-multipart
+jinja2
+pydantic[email]
+redis==5.0.8
