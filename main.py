@@ -1,20 +1,18 @@
-import redis
-
 from uuid import UUID
 
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, Depends
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
-from user.schemas import UserIn
-from user.endpoints import router as user_router
-from chat.endpoints import router as chat_router
 from chat.endpoints import room_router
-
+from chat.endpoints import router as chat_router
 from core.dependencies import get_db
 from core.middleware import WebSocketAuthMiddleware
 from core.websocket import WebSocketConnectionManager
+from user.endpoints import router as user_router
+from user.schemas import UserIn
 
 manager = WebSocketConnectionManager()
 
@@ -50,7 +48,7 @@ async def websocket_endpoint(room_id: UUID, websocket: WebSocket):
         db_session: Session = next(db_gen)
         while True:
             data = await websocket.receive_text()
-            print(f"Received:{data} from {websocket.scope["client"]}", room_id)
+            print(f"Received:{data} from {websocket.scope['client']}", room_id)
             await manager.send_chat_message(websocket.scope["user"], room_id, data, db_session)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)

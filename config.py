@@ -1,13 +1,14 @@
 from functools import lru_cache
 from typing import Optional
 
-from pydantic import BaseSettings, PostgresDsn, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class GlobalConfig(BaseSettings):
     DEBUG: bool = False
     API_V1_STR: str = "/api/v1"
-    DATABASE_URL: PostgresDsn = Field(env="DATABASE_URL")
+    DATABASE_URL: str = Field(env="DATABASE_URL")
     ENVIRONMENT: str = Field(env="ENVIRONMENT", default="DEV")
 
     class Config:
@@ -16,12 +17,12 @@ class GlobalConfig(BaseSettings):
 
 
 class DevConfig(GlobalConfig):
-    DEBUG = True
+    DEBUG : bool = True
 
 
-class TestingConfig(GlobalConfig):
-    DEBUG = True
-    TESTING = True
+class TestConfig(GlobalConfig):
+    DEBUG : bool = True
+    TESTING : bool = True
 
 
 class FactoryConfig:

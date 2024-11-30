@@ -37,15 +37,11 @@ $(document).ready(function() {
             formDataArray.forEach(item => {
                 formData[item.name] = item.value;
             });
-            formData["grant_type"] = ""
-            formData["scope"] = ""
-            formData["client_id"] = ""
-            formData["client_secret"] = ""
 
             const response = await fetch("/login/", {
                 method: "POST",
-                body: $(this).serialize() + "&grant_type=&scope=&client_id=&client_secret=",
-                headers: { 
+                body: $(this).serialize(),
+                headers: {
                     "Content-type": "application/x-www-form-urlencoded"
                 }
             });

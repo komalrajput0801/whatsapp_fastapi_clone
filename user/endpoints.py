@@ -1,10 +1,3 @@
-from fastapi import Depends, APIRouter
-from fastapi_utils.api_model import APIMessage, APIModel
-from fastapi_utils.cbv import cbv
-from fastapi_utils.guid_type import GUID
-from fastapi_utils.inferring_router import InferringRouter
-from sqlalchemy.orm import Session
-
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -12,14 +5,11 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_utils.cbv import cbv
 from sqlalchemy.orm import Session
 
-from core.dependencies import get_db, common_parameters
-from user.crud import user
-from user.models import User
-from user.schemas import UserIn, UserOut, UserBase, UserID, UserUpdate
-from user.utils import verify_password, create_access_token, get_hashed_password, get_current_user
-
-
+from core.dependencies import common_parameters
 from core.dependencies import get_db
+from user.crud import user
+from user.schemas import UserIn, UserOut, UserID, UserUpdate
+from user.utils import verify_password, create_access_token, get_current_user
 
 router = APIRouter()
 

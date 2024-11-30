@@ -21,7 +21,7 @@ class ChatRoomIn(BaseModel):
     members: List[UserID]
 
     class Config:
-        allow_population_by_field_name  = True
+        populate_by_name  = True
 
 
 class ChatRoomOut(ChatRoomIn):
@@ -29,14 +29,14 @@ class ChatRoomOut(ChatRoomIn):
     members: List[UserOut]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ChatMessageIn(BaseModel):
     message: str
     chat_room_id: RoomID
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ChatMessageOut(ChatMessageIn):
     sender: UserOut

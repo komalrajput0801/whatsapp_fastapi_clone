@@ -6,3 +6,6 @@ __pycache__/
 
 # Profiler files
 *.prof
+
+# IDE files
+.idea/

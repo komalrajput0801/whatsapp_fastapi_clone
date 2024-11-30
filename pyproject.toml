@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "fastapi-whatsapp"
+version = "0.1.0"
+description = ""
+authors = ["Komal Rajput <komalrajput0801@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.5"
+uvicorn = {extras = ["standard"], version = "^0.32.1"}
+sqlalchemy = "^2.0.36"
+psycopg2-binary = "^2.9.10"
+alembic = "^1.14.0"
+alembic-postgresql-enum = "^1.4.0"
+fastapi-utils = "^0.8.0"
+python-dotenv = "^1.0.1"
+python-jose = "^3.3.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.18"
+jinja2 = "^3.1.4"
+pydantic = {extras = ["email"], version = "^2.10.2"}
+redis = "^5.2.0"
+typing-inspect = "^0.9.0"
+pydantic-settings = "^2.6.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

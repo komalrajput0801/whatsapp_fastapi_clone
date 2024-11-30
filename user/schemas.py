@@ -24,7 +24,7 @@ class UserOut(UserBase):
     chat_room_id: Optional[uuid.UUID] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserUpdate(BaseModel):
