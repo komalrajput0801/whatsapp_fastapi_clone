@@ -95,7 +95,7 @@ function openChatRoom(chat_room_id){
     if(ws != ""){
         ws.close();
     }
-    ws = new WebSocket(`ws://localhost:8000/ws/chat/${chat_room_id}/?token=${token}`);
+    ws = new WebSocket(`ws://localhost:8001/ws/chat/${chat_room_id}/?token=${token}`);
     bindWebsocketEvents(chat_room_id);
     fetchChatMessages(chat_room_id);
 }
@@ -236,7 +236,7 @@ function bindWebsocketEvents(roomId){
     ws.onclose = function (event) {
         console.log("WebSocket connection closed", event.code, event.reason);
         // reconnect 
-        ws = new WebSocket(`ws://localhost:8000/ws/chat/${roomId}/?token=${token}`);
+        ws = new WebSocket(`ws://localhost:8001/ws/chat/${roomId}/?token=${token}`);
         console.log("Server reconnected")
     };
 }

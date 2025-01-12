@@ -1,0 +1,39 @@
+services:
+  web:
+    # specified the location of Dockerfile and . indicates current directory in which
+    # docker-compose.yml file is present. In case we want pre-built image, we use image option instead
+    # of build, you can also specify different directory using context and different dockerfile using
+    # dockerfile command inside build
+    build: .
+    # Maps a port on the host machine to container port, making it accessible from outside the container
+    # the host port 8000 is reserved by the container until it is running and cannot be used by another docker/
+    # non-docker apps
+    ports:
+      - 8001:8001
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/container_chat # its imp here to have container name instead of localhost
+    command:  bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8001 --reload"
+    depends_on:
+      - db
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=container_chat
+
+# declares named volumes, if not declared container will create anonymous volumes
+volumes:
+  postgres_data:
+
+
+
+# learn about network bridge driver
+# https://medium.com/techmormo/the-bridge-network-driver-networking-in-docker-6-af4e9809a14d:
+# add network and check

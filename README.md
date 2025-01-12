@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ### 1. Clone the repository:
 ```
 
-git clone https://github.com/yourusername/fastapi-alembic-example.git
+git clone https://github.com/komalrajput0801/whatsapp_fastapi_clone.git
 cd whatsapp_clone
 
 ```
@@ -43,11 +43,19 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 ```
 
-### 3. Install dependencies:
+### 3. Install dependencies using pip:
 ```
 
 pip install -r requirements.txt
 
+```
+
+OR
+
+### 3. Install dependencies using poetry
+```
+pip install poetry
+poetry install
 ```
 
 ### 4. Configure the environment variables for your database. Create a .env file in the root directory and add the following:
@@ -57,10 +65,22 @@ DATABASE_URL=postgresql+asyncpg://user:password@localhost/dbname
 
 ```
 
+### 5. Run migrations
+```
+
+alembic upgrade head
+
+```
+
 ## Running the Application
 To run the FastAPI application, use Uvicorn:
 ```
 
 uvicorn app.main:app --reload
 
+```
+
+## API documentation
+```
+http://localhost:8000/docs
 ```
