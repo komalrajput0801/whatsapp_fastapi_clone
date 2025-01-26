@@ -1,15 +1,16 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredentials
 from fastapi_utils.cbv import cbv
 from sqlalchemy.orm import Session
 
 from core.dependencies import common_parameters
 from core.dependencies import get_db
 from user.crud import user
+from user.models import BlackListedToken
 from user.schemas import UserIn, UserOut, UserID, UserUpdate
-from user.utils import verify_password, create_access_token, get_current_user
+from user.utils import verify_password, create_access_token, get_current_user, security
 
 router = APIRouter()
 
@@ -71,3 +72,14 @@ class UserCBV:
             "senderId": user_in_db.id
         }
 
+    @router.post("/logout/")
+    def user_logout(self, auth: HTTPAuthorizationCredentials = Depends(security)):
+        token = auth.credentials
+        if BlackListedToken.check_token_is_blacklisted_or_not(token):
+            return {
+                "message": "Token is already blacklisted"
+            }
+        BlackListedToken.blacklist(token)
+        return {
+            "message": "Logged out successfully"
+        }

@@ -1,14 +1,11 @@
 import asyncio
 
-from datetime import datetime
-
-import json
 import redis
-
 from fastapi import WebSocket
+from sqlalchemy.orm import Session
 
 from chat.crud import chats
-from sqlalchemy.orm import Session
+from config import settings
 from user.models import User
 from user.utils import get_users_with_room
 
@@ -18,7 +15,7 @@ class RedisPubSubManager:
         try:
             # Initialize the Redis client and Pub/Sub object
             self.redis_client = redis.StrictRedis(
-                host="127.0.0.1", port=6379, decode_responses=True,
+                host=settings.REDIS_HOST, port=settings.REDIS_PORT, decode_responses=True,
                 socket_timeout=5
             )
             self.pub_sub = self.redis_client.pubsub()
@@ -73,7 +70,7 @@ class WebSocketConnectionManager:
                 # confusing here as to whom send the message of online or offline
                 # send messages to all user connections, this can be used for notifications also
                 for websocket in self.active_connections[user_id]:
-                    await websocket.send_json(data)
+                    await websocket.send_json(message)
 
     async def connect(self, room_id: str, websocket: WebSocket, user: User):
         await websocket.accept()

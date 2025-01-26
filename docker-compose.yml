@@ -1,4 +1,16 @@
 services:
+  redis-service:
+    image: redis:latest
+    restart: always
+    expose:
+      - 6380
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -p 6380 ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    command: --port 6380
+
   web:
     # specified the location of Dockerfile and . indicates current directory in which
     # docker-compose.yml file is present. In case we want pre-built image, we use image option instead
@@ -14,9 +26,12 @@ services:
       - .:/app
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/container_chat # its imp here to have container name instead of localhost
+      - REDIS_PORT=6380
+      - REDIS_HOST=redis-service # all the containers in single compose file are on same network so accessible via container name
     command:  bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8001 --reload"
     depends_on:
       - db
+      - redis-service
   db:
     image: postgres:15-alpine
     volumes:
@@ -31,8 +46,6 @@ services:
 # declares named volumes, if not declared container will create anonymous volumes
 volumes:
   postgres_data:
-
-
 
 # learn about network bridge driver
 # https://medium.com/techmormo/the-bridge-network-driver-networking-in-docker-6-af4e9809a14d:

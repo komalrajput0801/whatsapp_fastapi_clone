@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Any, Union
 
-from user.models import User
+from user.models import User, BlackListedToken
 from chat.models import *
 from core.dependencies import get_db
 from fastapi import HTTPException, Request, status
@@ -15,7 +15,8 @@ from database import SessionLocal
 ACCESS_TOKEN_EXPIRE_MINUTES = 240  # 240 minutes
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 ALGORITHM = "HS256"
-JWT_SECRET_KEY = "c87201cd0ea515c359feb1baf8dd9099c2ea4083020ac5b9212c0de0e7551d1d"  # generated using openssl rand -hex 32
+# generated using openssl rand -hex 32
+JWT_SECRET_KEY = "c87201cd0ea515c359feb1baf8dd9099c2ea4083020ac5b9212c0de0e7551d1d"
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login/")
@@ -67,6 +68,9 @@ def get_user_from_token(token: str, session: Session = Depends(get_db)):
 
 def get_current_user(authorization: HTTPAuthorizationCredentials = Depends(security), session: Session = Depends(get_db)):
     token = authorization.credentials
+    is_expired = BlackListedToken.check_token_is_blacklisted_or_not(token)
+    if is_expired:
+        raise credentials_exception
     return get_user_from_token(token, session)
 
 

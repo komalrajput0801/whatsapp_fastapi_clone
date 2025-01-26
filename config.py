@@ -1,15 +1,16 @@
 from functools import lru_cache
 from typing import Optional
 
-from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
 class GlobalConfig(BaseSettings):
     DEBUG: bool = False
     API_V1_STR: str = "/api/v1"
-    DATABASE_URL: str = Field(env="DATABASE_URL")
-    ENVIRONMENT: str = Field(env="ENVIRONMENT", default="DEV")
+    DATABASE_URL: str
+    ENVIRONMENT: str = "DEV"
+    REDIS_HOST: str
+    REDIS_PORT: str
 
     class Config:
         env_file = ".env"
