@@ -84,3 +84,9 @@ uvicorn app.main:app --reload
 ```
 http://localhost:8000/docs
 ```
+
+## Accessing Admin Panel
+```
+http://localhost:8000/admin/
+```
+Login with admin credentials (user with is_admin flag True)

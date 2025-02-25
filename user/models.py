@@ -1,12 +1,11 @@
 from datetime import datetime
 
-from requests import session
 from sqlalchemy import Column, String, Boolean, Text, Date
 from sqlalchemy.orm import relationship
 
 from chat.models import room_members_table
 from core.base_models import UUIDBase
-from database import Base, SessionLocal
+from database import SessionLocal
 
 
 class User(UUIDBase):
@@ -22,6 +21,8 @@ class User(UUIDBase):
     received_messages = relationship("ChatMessageRecipients", back_populates="receiver")
 
     chats = relationship("ChatRoom", secondary=room_members_table, back_populates="members")
+
+    is_admin = Column(Boolean, default=False)
 
 
 class BlackListedToken(UUIDBase):

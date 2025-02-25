@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
+from admin import create_admin
 from chat.endpoints import room_router
 from chat.endpoints import router as chat_router
 from core.dependencies import get_db
@@ -23,6 +24,16 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(user_router)
 app.include_router(chat_router, prefix="/api/chat")
 app.include_router(room_router, prefix="/api/room")
+
+# TODO: check how to override admin to save hashed password when creating user from admin
+
+create_admin(app)
+
+# app.mount("/admin/", admin) # mount step is not needed if you directly create admin instance as shown below
+# as otherwise how would app know to include admin
+
+# admin = Admin(app=app, engine=engine)
+# admin.add_view(UsersAdmin)
 
 templates = Jinja2Templates(directory="templates")
 
@@ -76,3 +87,4 @@ async def home_page(request: Request):
         request=request, name="reg_login.html", 
         context={"register_form": UserIn.schema()["properties"]}
     )
+

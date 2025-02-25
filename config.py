@@ -11,6 +11,7 @@ class GlobalConfig(BaseSettings):
     ENVIRONMENT: str = "DEV"
     REDIS_HOST: str
     REDIS_PORT: str
+    ADMIN_SECRET_KEY: str
 
     class Config:
         env_file = ".env"

@@ -1,13 +1,11 @@
-from datetime import datetime
-
 import uuid
+from datetime import datetime
 from typing import NewType, List, Optional
 
-from pydantic import BaseModel, Field
-from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
-from database import SessionLocal
 from chat.models import ChatTypeEnum, ChatRoom
+from database import SessionLocal
 from user.models import User
 from user.schemas import UserOut
 

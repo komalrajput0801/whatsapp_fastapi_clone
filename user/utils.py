@@ -1,16 +1,17 @@
 from datetime import datetime, timedelta
 from typing import Any, Union
 
-from user.models import User, BlackListedToken
-from chat.models import *
-from core.dependencies import get_db
-from fastapi import HTTPException, Request, status
+from fastapi import HTTPException, status
 from fastapi.params import Depends
 from fastapi.security import OAuth2PasswordBearer, HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
+
+from chat.models import *
+from core.dependencies import get_db
 from database import SessionLocal
+from user.models import User, BlackListedToken
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 240  # 240 minutes
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days

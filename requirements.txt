@@ -12,3 +12,4 @@ python-multipart
 jinja2
 pydantic[email]
 redis==5.0.8
+sqladmin[full]==0.20.1
